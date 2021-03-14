@@ -1,5 +1,5 @@
 'use strict';
-
+require("dotenv").config()
 const knex = require('knex');
 
 const configs = {
@@ -13,7 +13,8 @@ const configs = {
     },
     migrations: {
       tableName: 'knex_migrations'
-    }
+    },
+    debugging: true
   }
 }
 

@@ -2,16 +2,18 @@
 
 const { Model } = require("objection");
 const knex = require("../config/database");
-const Technology  = require("./Technology");
 
 Model.knex(knex);
 
 class Candidate extends Model {
-  static get tableName() {
+  static tableName() {
     return "candidates"
   }
 
   static get relationMappings() {
+    const Technology  = require("./Technology");
+
+
     return {
       technologies: {
         relation: Model.ManyToManyRelation,
@@ -20,7 +22,8 @@ class Candidate extends Model {
           from: "candidates.id",
           through: {
             from: "candidates_technologies.candidate_id",
-            to: "candidates_techonologies.technology_id"
+            to: "candidates_technologies.technology_id",
+            extra: ['is_main']
           },
           to: "technologies.id"
         }

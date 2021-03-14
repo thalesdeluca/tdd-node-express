@@ -2,8 +2,7 @@
 
 const { Model } = require("objection");
 const knex = require("../config/database");
-const Candidate  = require("./Candidate");
-const Technology = require("./Technology");
+
 
 Model.knex(knex);
 
@@ -13,6 +12,9 @@ class CandidateTechnology extends Model {
   }
 
   static get relationMappings() {
+    const Candidate  = require("./Candidate");
+    const Technology = require("./Technology");
+
     return {
       candidate: {
         relation: Model.BelongsToOneRelation,
