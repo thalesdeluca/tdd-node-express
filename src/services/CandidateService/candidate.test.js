@@ -114,6 +114,19 @@ describe('CandidateService', () => {
     }
 
   });
+
+  test("list technologies", async () => {
+    expect.assertions(2);
+    try {
+      const candidates = await CandidateService.getCandidates();
+
+      expect(candidates).toHaveProperty("candidates");
+      expect(candidates).toHaveProperty("matchers")
+    } catch(err) {
+      
+    }
+
+  });
   
 })
 

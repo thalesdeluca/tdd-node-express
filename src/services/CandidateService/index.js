@@ -13,8 +13,7 @@ class CandidateService {
     if (candidate.state === state) {
       points += 5;
       points += candidate.city === city ? 10 : 0;
-    }
-
+    } 
     points += candidate.min_experience;
 
     //Suggestions case not match
@@ -44,29 +43,29 @@ class CandidateService {
 
   static async getCandidates({ state, city, min_xp, max_xp, techs } = {}) {
     try {
+
       const matchesQuery = Candidate.query()
       .withGraphFetched("technologies");
 
       if(state) {
         matchesQuery.where("state", "like", `%${state}%`)
       }
-
       if(city) {
         matchesQuery.where("city", "like", `%${city}%`)
       }
-
+      
       if(min_xp || max_xp) {
         const maxRange = max_xp || 12;
         const minRange = min_xp || 0;
         matchesQuery.whereBetween("min_experience", [minRange, maxRange])
       }
-
+    
       if(techs) {
         matchesQuery.whereExists(Candidate.relatedQuery("technologies").whereIn("name", techs))
       }
-
+     
       const matches = await matchesQuery.execute();
-    
+      
       let matchesPoints = matches.map((candidate) => ({
         candidate, 
         points: this.calculatePoints(candidate, { 
@@ -100,7 +99,8 @@ class CandidateService {
     } catch(err) {
       console.log(err)
     }
-  
+
+    
   }
 }
 

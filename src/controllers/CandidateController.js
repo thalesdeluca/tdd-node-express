@@ -1,6 +1,6 @@
 'use strict';
 const express = require("express");
-const CandidateService = require("../services/CandidateService");
+const { CandidateService } = require("../services");
 
 class CandidateController {
   constructor() {
@@ -17,7 +17,7 @@ class CandidateController {
     try {
       console.log(query)
       const candidates = await CandidateService.getCandidates(query);
-      
+
       return res.status(200).send(candidates);
     } catch(err) {
       return res.status(500).send(err);

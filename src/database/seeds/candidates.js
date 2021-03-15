@@ -4,7 +4,10 @@ const { Candidate, Technology, CandidateTechnology } = require("../../models");
 
 
 exports.seed = async function(knex) {
-  await Promise.allSettled(json.candidates.map(async ({ id, technologies, experience, city: address }) => {
+  return await json.candidates.reduce( async (previousCandidate, { id, technologies, experience, city: address }) => {
+    
+    await previousCandidate;
+    console.log("teste", previousCandidate);
     const candidateRegistered = await Candidate.query().findOne("external_id", id);
   
 
@@ -31,10 +34,15 @@ exports.seed = async function(knex) {
           state,
         })
 
-        await Promise.allSettled(technologies.map(async ({ name, is_main_tech }) => {
-          const technologyRegistered = await Technology.query(trx).findOne("name", name);
+        const technologiesSaved = []
 
-          let technology = technologyRegistered || await Technology.query(trx).insert({
+        return await technologies.reduce(async (previousTech, { name, is_main_tech }) => {
+          await previousTech;
+          const technologyRegistered = await Technology.query(trx).findOne("name", name);
+          console.log(technologyRegistered)
+          
+
+          let technology = technologyRegistered ? technologyRegistered : await Technology.query(trx).insert({
             name,
           })
 
@@ -43,12 +51,10 @@ exports.seed = async function(knex) {
             candidate_id: candidate.id,
             is_main: is_main_tech
           })
-        }))
-
-        return candidate;
+        })
       })
     } catch(err) {
       console.log(err);
     }
-  }))
+  })
 };
