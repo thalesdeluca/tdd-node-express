@@ -18,8 +18,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
-    "objection": "^2.2.14",
-    "objection-filter": "^4.1.1"
+    "objection": "^2.2.14"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
